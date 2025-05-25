@@ -4,6 +4,7 @@ import './App.css';
 
 // Import components
 import Navbar from './components/Navbar';
+import Analytics from './components/Analytics';
 import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import QuestionnaireStep from './pages/QuestionnaireStep';
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <Router>
+      <Analytics />
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <main className="container mx-auto px-4 py-8">
