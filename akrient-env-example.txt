@@ -1,0 +1,15 @@
+# OpenAI API Configuration
+VITE_OPENAI_API_KEY=your_openai_api_key_here
+
+# Application Configuration
+VITE_APP_NAME=Akrient
+VITE_APP_URL=http://localhost:3000
+
+# Future Azure Configuration (when you're ready to deploy)
+VITE_AZURE_STORAGE_ACCOUNT=
+VITE_AZURE_STORAGE_KEY=
+VITE_AZURE_FORM_RECOGNIZER_ENDPOINT=
+VITE_AZURE_FORM_RECOGNIZER_KEY=
+
+# Database Configuration (for future use)
+VITE_DATABASE_URL=
