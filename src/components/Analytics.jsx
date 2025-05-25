@@ -6,8 +6,8 @@ const Analytics = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Initialize GA4 - G-RS675T746N
-    ReactGA.initialize('G-XXXXXXXXXX'); // REPLACE THIS!
+    // Initialize GA4 - Replace with your Measurement ID
+    ReactGA.initialize('G-XXXXXXXXXX'); // REPLACE THIS WITH YOUR ACTUAL ID!
     
     // Send initial pageview
     ReactGA.send({ 
