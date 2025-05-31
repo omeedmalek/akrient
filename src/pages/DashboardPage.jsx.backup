@@ -107,7 +107,7 @@ const DashboardPage = ({ setCurrentProject }) => {
           <p className="text-gray-600 mt-1">Manage your legal documents and deals</p>
         </div>
         <button
-          onClick={() => navigate('/new-project')}
+          onClick={() => navigate('/new-project/questionnaire')}
           className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           <Plus className="w-5 h-5" />
@@ -227,7 +227,7 @@ const DashboardPage = ({ setCurrentProject }) => {
               <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">No projects found</p>
               <button
-                onClick={() => navigate('/new-project')}
+                onClick={() => navigate('/new-project/questionnaire')}
                 className="mt-4 text-blue-600 hover:text-blue-700"
               >
                 Create your first project
