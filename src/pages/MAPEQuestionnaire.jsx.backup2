@@ -20,7 +20,7 @@ import {
   INDUSTRY_SUBCATEGORIES
 } from '../data/questionnaireConstants';
 
-const JointVenturesQuestionnaire = () => {
+const MAPEQuestionnaire = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const JointVenturesQuestionnaire = () => {
     selectedPESellers: [],
     consideration: [],
     structure: [],
-    structureSelectType: 'any',
+    structureSelectType: 'any', // 'any' or 'all'
     numberOfBlockersMin: '',
     numberOfBlockersMax: '',
     targetTypeDomestic: [],
@@ -45,7 +45,7 @@ const JointVenturesQuestionnaire = () => {
     signingDateEnd: '',
     textSearch: '',
     
-    // Deal Characteristics (same as MAPE)
+    // Deal Characteristics
     auction: '',
     bankruptcyDeal: '',
     carveoutTransaction: '',
@@ -60,11 +60,6 @@ const JointVenturesQuestionnaire = () => {
     secondaryPurchase: '',
     unsolicitedTransaction: '',
     activismAgainstMerger: '',
-    
-    // Joint Ventures Specific
-    jointVentureStructure: '',
-    numberOfJVPartners: { min: '', max: '' },
-    jvPercentOwnedByClient: { min: '', max: '' },
     
     // Parties and Drafts
     leadPartner: '',
@@ -117,8 +112,7 @@ const JointVenturesQuestionnaire = () => {
 
   const steps = [
     "General Information",
-    "Joint Venture Details",
-    "Deal Characteristics",
+    "Deal Characteristics", 
     "Parties & Drafts",
     "Industry",
     "Purchase Price & Terms",
@@ -155,12 +149,12 @@ const JointVenturesQuestionnaire = () => {
   };
 
   const handleSaveDraft = () => {
-    localStorage.setItem('jv_questionnaire_draft', JSON.stringify(formData));
+    localStorage.setItem('mape_questionnaire_draft', JSON.stringify(formData));
     alert('Draft saved successfully!');
   };
 
   const handleSubmit = () => {
-    console.log('Submitting Joint Ventures questionnaire:', formData);
+    console.log('Submitting MAPE questionnaire:', formData);
     navigate('/dashboard');
   };
 
@@ -176,7 +170,18 @@ const JointVenturesQuestionnaire = () => {
                 onChange={(e) => handleInputChange('firmRepresents', e.target.value)}
               >
                 <option value="">-- Select --</option>
-                <option value="joint_venturer">Joint Venturer (JV)</option>
+                <option value="buyer_controlling">Buyer (controlling interest)</option>
+                <option value="seller_controlling">Seller (controlling interest)</option>
+                <option value="co_investor_buyer">Co-investor part of Buyer Group</option>
+                <option value="co_investor_seller">Co-investor part of Seller Group</option>
+                <option value="financial_advisor">Financial Advisor</option>
+                <option value="management">Management</option>
+                <option value="merger_equals">Merger of Equals</option>
+                <option value="affiliate_transaction">Affiliate Transaction</option>
+                <option value="issuer">Issuer</option>
+                <option value="shareholders">Shareholders</option>
+                <option value="special_committee">Special Committee</option>
+                <option value="other">Other</option>
               </Select>
             </div>
 
@@ -228,7 +233,7 @@ const JointVenturesQuestionnaire = () => {
             <div>
               <Label>Consideration</Label>
               <div className="space-y-2">
-                {CONSIDERATION_OPTIONS.map((option) => (
+                {["Cash", "Promissory Note", "Stock/Equity", "Warrant"].map((option) => (
                   <label key={option} className="flex items-center space-x-2">
                     <input
                       type="checkbox"
@@ -297,95 +302,7 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 1: // Joint Venture Details
-        return (
-          <div className="space-y-6">
-            <div>
-              <Label htmlFor="jointVentureStructure">Joint Venture Structure</Label>
-              <Select
-                id="jointVentureStructure"
-                value={formData.jointVentureStructure}
-                onChange={(e) => handleInputChange('jointVentureStructure', e.target.value)}
-              >
-                <option value="">-- Select --</option>
-                <option value="via_entity">Via Entity</option>
-                <option value="via_contract">Via Contract</option>
-                <option value="virtual_jv">Virtual Joint Venture</option>
-                <option value="strategic_alliance">Strategic Alliance</option>
-              </Select>
-            </div>
-
-            <div>
-              <Label># of JV Partners</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="jvPartnersMin">Min</Label>
-                  <Input
-                    id="jvPartnersMin"
-                    type="number"
-                    value={formData.numberOfJVPartners.min}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      numberOfJVPartners: { ...prev.numberOfJVPartners, min: e.target.value }
-                    }))}
-                    placeholder="Minimum partners"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="jvPartnersMax">Max</Label>
-                  <Input
-                    id="jvPartnersMax"
-                    type="number"
-                    value={formData.numberOfJVPartners.max}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      numberOfJVPartners: { ...prev.numberOfJVPartners, max: e.target.value }
-                    }))}
-                    placeholder="Maximum partners"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Label>JV % Owned by Client</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="jvPercentMin">Min %</Label>
-                  <Input
-                    id="jvPercentMin"
-                    type="number"
-                    value={formData.jvPercentOwnedByClient.min}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      jvPercentOwnedByClient: { ...prev.jvPercentOwnedByClient, min: e.target.value }
-                    }))}
-                    placeholder="Minimum percentage"
-                    min="0"
-                    max="100"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="jvPercentMax">Max %</Label>
-                  <Input
-                    id="jvPercentMax"
-                    type="number"
-                    value={formData.jvPercentOwnedByClient.max}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      jvPercentOwnedByClient: { ...prev.jvPercentOwnedByClient, max: e.target.value }
-                    }))}
-                    placeholder="Maximum percentage"
-                    min="0"
-                    max="100"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 2: // Deal Characteristics
+      case 1: // Deal Characteristics
         return (
           <div className="space-y-6">
             {[
@@ -443,7 +360,7 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 3: // Parties & Drafts
+      case 2: // Parties & Drafts
         return (
           <div className="space-y-6">
             <div>
@@ -543,7 +460,7 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 4: // Industry
+      case 3: // Industry
         return (
           <div className="space-y-6">
             <div>
@@ -591,7 +508,7 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 5: // Purchase Price & Terms
+      case 4: // Purchase Price & Terms
         return (
           <div className="space-y-6">
             <div>
@@ -747,7 +664,163 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 6: // Closing & Termination
+      case 4: // Purchase Price & Terms
+        return (
+          <div className="space-y-6">
+            <div>
+              <Label>Purchase Price Range</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="purchasePriceMin">Min Price ($)</Label>
+                  <Input
+                    id="purchasePriceMin"
+                    type="number"
+                    value={formData.purchasePriceMin}
+                    onChange={(e) => handleInputChange('purchasePriceMin', e.target.value)}
+                    placeholder="Minimum price"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="purchasePriceMax">Max Price ($)</Label>
+                  <Input
+                    id="purchasePriceMax"
+                    type="number"
+                    value={formData.purchasePriceMax}
+                    onChange={(e) => handleInputChange('purchasePriceMax', e.target.value)}
+                    placeholder="Maximum price"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="workingCapitalAdjustment">Working Capital Adjustment</Label>
+              <Select
+                id="workingCapitalAdjustment"
+                value={formData.workingCapitalAdjustment}
+                onChange={(e) => handleInputChange('workingCapitalAdjustment', e.target.value)}
+              >
+                <option value="">-- Select --</option>
+                <option value="yes_collar">Yes (collar adjustment)</option>
+                <option value="yes_traditional">Yes (traditional adjustment)</option>
+                <option value="locked_box">Locked box</option>
+                <option value="no_other">No (other than locked box)</option>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="escrowHoldback">Escrow/Holdback for Purchase Price Adjustment?</Label>
+              <Select
+                id="escrowHoldback"
+                value={formData.escrowHoldback}
+                onChange={(e) => handleInputChange('escrowHoldback', e.target.value)}
+              >
+                <option value="">-- Select --</option>
+                <option value="separate_escrow">Separate escrow</option>
+                <option value="combined_escrow">Combined escrow with indemnity</option>
+                <option value="holdback">Holdback</option>
+                <option value="none">None</option>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="rollover">Rollover</Label>
+              <Select
+                id="rollover"
+                value={formData.rollover}
+                onChange={(e) => handleInputChange('rollover', e.target.value)}
+              >
+                <option value="">-- Select --</option>
+                <option value="management_and_seller">Rollover by Management and Seller</option>
+                <option value="management_only">Rollover by Management Only</option>
+                <option value="seller_only">Rollover by Seller Only</option>
+                <option value="no_rollover">No Rollover</option>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="earnout">Earnout</Label>
+              <Select
+                id="earnout"
+                value={formData.earnout}
+                onChange={(e) => handleInputChange('earnout', e.target.value)}
+              >
+                <option value="">-- Select --</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </Select>
+            </div>
+
+            {formData.earnout === 'yes' && (
+              <>
+                <div>
+                  <Label>Earnout Metric</Label>
+                  <div className="space-y-2">
+                    {EARNOUT_METRICS.map((metric) => (
+                      <label key={metric} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.earnoutMetric.includes(metric)}
+                          onChange={() => handleArrayChange('earnoutMetric', metric)}
+                        />
+                        <span className="text-sm">{metric}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="accelerationOnChangeOfControl">Acceleration on Change of Control</Label>
+                  <Select
+                    id="accelerationOnChangeOfControl"
+                    value={formData.accelerationOnChangeOfControl}
+                    onChange={(e) => handleInputChange('accelerationOnChangeOfControl', e.target.value)}
+                  >
+                    <option value="">-- Select --</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label>Covenants Present?</Label>
+                  <div className="space-y-2">
+                    {[
+                      "Run Business Consistent with Prior Practice",
+                      "Run Business to Maximize Earnout Payment",
+                      "Explicit Obligation to Act in Good Faith",
+                      "None of the above"
+                    ].map((covenant) => (
+                      <label key={covenant} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.covenantsPresent.includes(covenant)}
+                          onChange={() => handleArrayChange('covenantsPresent', covenant)}
+                        />
+                        <span className="text-sm">{covenant}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="earnoutExplicitlyOffset">Earnout Explicitly Offset</Label>
+                  <Select
+                    id="earnoutExplicitlyOffset"
+                    value={formData.earnoutExplicitlyOffset}
+                    onChange={(e) => handleInputChange('earnoutExplicitlyOffset', e.target.value)}
+                  >
+                    <option value="">-- Select --</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </Select>
+                </div>
+              </>
+            )}
+          </div>
+        );
+
+      case 5: // Closing & Termination
         return (
           <div className="space-y-6">
             <div>
@@ -899,7 +972,7 @@ const JointVenturesQuestionnaire = () => {
           </div>
         );
 
-      case 7: // Indemnification & Insurance
+      case 6: // Indemnification & Insurance
         return (
           <div className="space-y-6">
             <div>
@@ -942,8 +1015,8 @@ const JointVenturesQuestionnaire = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Joint Ventures Questionnaire</h1>
-          <p className="mt-2 text-gray-600">Complete the information below for your Joint Venture transaction</p>
+          <h1 className="text-3xl font-bold text-gray-900">M&A/PE Questionnaire</h1>
+          <p className="mt-2 text-gray-600">Complete the information below for your M&A/PE transaction</p>
         </div>
 
         <Card>
@@ -995,4 +1068,64 @@ const JointVenturesQuestionnaire = () => {
   );
 };
 
-export default JointVenturesQuestionnaire;
+export default MAPEQuestionnaire;
+cat > temp_ending.txt << 'EOF'
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">M&A/PE Questionnaire</h1>
+          <p className="mt-2 text-gray-600">Complete the information below for your M&A/PE transaction</p>
+        </div>
+
+        <Card>
+          <div className="p-6">
+            <div className="mb-6">
+              <Progress value={(currentStep + 1) / steps.length * 100} className="mb-2" />
+              <p className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}: {steps[currentStep]}</p>
+            </div>
+
+            <div className="min-h-[400px]">
+              {renderStepContent()}
+            </div>
+
+            <div className="mt-8 flex justify-between">
+              <Button
+                variant="outline"
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+              >
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Previous
+              </Button>
+
+              <div className="flex space-x-4">
+                <Button
+                  variant="outline"
+                  onClick={handleSaveDraft}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Draft
+                </Button>
+
+                {currentStep === steps.length - 1 ? (
+                  <Button onClick={handleSubmit}>
+                    Submit Questionnaire
+                  </Button>
+                ) : (
+                  <Button onClick={handleNext}>
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default MAPEQuestionnaire;

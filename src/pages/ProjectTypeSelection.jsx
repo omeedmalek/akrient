@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 import { FileText, Users, Briefcase } from 'lucide-react';
 
 const ProjectTypeSelection = () => {
