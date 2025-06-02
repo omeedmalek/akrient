@@ -1,70 +1,114 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Scale, Home, FolderOpen, Plus, Settings, LogOut } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const location = useLocation();
-
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-b border-gray-200">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <Scale className="w-8 h-8 text-blue-600" />
-            <span className="text-xl font-bold">Akrient</span>
-          </Link>
-
-          {/* Main Navigation */}
-          <div className="flex items-center gap-6">
-            <Link
-              to="/"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${
-                isActive('/') 
-                  ? 'bg-blue-50 text-blue-600' 
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              <Home className="w-4 h-4" />
-              <span>Home</span>
-            </Link>
-
-            <Link
-              to="/dashboard"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${
-                isActive('/dashboard') 
-                  ? 'bg-blue-50 text-blue-600' 
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              <FolderOpen className="w-4 h-4" />
-              <span>Projects</span>
-            </Link>
-
-            <Link
-              to="/new-project"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              <Plus className="w-4 h-4" />
-              <span>New Project</span>
-            </Link>
+    <nav className="bg-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <div className="flex-shrink-0 flex items-center">
+              <Link to="/" className="text-2xl font-bold text-blue-600">
+                Akrient
+              </Link>
+            </div>
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <Link
+                to="/"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+              >
+                Home
+              </Link>
+              <Link
+                to="/questionnaire"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+              >
+                Questionnaire
+              </Link>
+              <Link
+                to="/termsheet-upload"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+              >
+                Term Sheet
+              </Link>
+              <Link
+                to="/clause-library"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+              >
+                Clause Library
+              </Link>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+              >
+                Dashboard
+              </Link>
+            </div>
           </div>
-
-          {/* User Menu */}
-          <div className="flex items-center gap-4">
-            <button className="text-gray-600 hover:text-gray-900">
-              <Settings className="w-5 h-5" />
-            </button>
-            <button className="text-gray-600 hover:text-gray-900">
-              <LogOut className="w-5 h-5" />
+          
+          <div className="-mr-2 flex items-center sm:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isOpen ? (
+                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </div>
+
+      {isOpen && (
+        <div className="sm:hidden">
+          <div className="pt-2 pb-3 space-y-1">
+            <Link
+              to="/"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              to="/questionnaire"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Questionnaire
+            </Link>
+            <Link
+              to="/termsheet-upload"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Term Sheet
+            </Link>
+            <Link
+              to="/clause-library"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Clause Library
+            </Link>
+            <Link
+              to="/dashboard"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              onClick={() => setIsOpen(false)}
+            >
+              Dashboard
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

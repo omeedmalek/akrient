@@ -1,0 +1,53 @@
+export const clauseCategories = {
+  A: "A",
+  B: "B", 
+  C: "C",
+  D: "D",
+  E: "E",
+  F: "F",
+  G: "G",
+  H: "H",
+  I: "I",
+  L: "L",
+  M: "M",
+  N: "N",
+  O: "O",
+  P: "P",
+  R: "R",
+  S: "S",
+  T: "T",
+  U: "U-W"
+};
+
+export const clauses = [
+  {
+    id: 1,
+    category: "A",
+    name: "Acceleration Clause",
+    definition: "Makes entire debt immediately due upon default",
+    scenario: "A tech startup takes a $10M loan to fund expansion. When they miss two quarterly payments due to delayed customer contracts, the lender invokes this clause to demand immediate repayment of the full outstanding balance, protecting their interests against further deterioration."
+  },
+  // For now, let's just include a few examples to test
+  {
+    id: 2,
+    category: "A",
+    name: "Acceptance Testing Clause",
+    definition: "Defines criteria for accepting deliverables",
+    scenario: "A Fortune 500 company commissions custom ERP software. This clause specifies that the software must process 10,000 transactions per minute with 99.9% accuracy during a 30-day testing period before final payment is released."
+  },
+  {
+    id: 23,
+    category: "B",
+    name: "Bill of Lading Clause",
+    definition: "Shipping document terms",
+    scenario: "An electronics manufacturer shipping $5M of components from Taiwan to California uses this clause to establish liability limits if cargo is damaged during ocean transit."
+  }
+];
+
+// Key statistics for display
+export const clauseStats = {
+  totalClauses: 192,
+  categories: 18,
+  precedentDocs: "500,000+",
+  accuracyRate: "99.8%"
+};
